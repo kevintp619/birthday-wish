@@ -22,7 +22,6 @@ export default async function MessagesPage() {
     redirect('/');
   }
 
-  // Calculate age on server
   const dob = new Date(userData.dateOfBirth);
   const today = new Date();
   let age = today.getFullYear() - dob.getFullYear();
