@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { saveBirthdayData, CardData } from '@/lib/cloudburstApi';
+import Image from 'next/image';
+import Link from 'next/link';
 
 const stockImages = [
   'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=400&h=300&fit=crop',
@@ -655,6 +657,41 @@ export default function HomeClient() {
           </motion.div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-6 px-4">
+        <div className="max-w-4xl mx-auto text-center space-y-3">
+          <p className="text-sm">
+            This app is developed by{' '}
+            <Link 
+              href="https://shawkath646.vercel.app" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:text-blue-300 font-semibold transition-colors"
+            >
+              Shawkat Hossain Maruf
+            </Link>
+            {' '}on behalf of{' '}
+            <Link 
+              href="https://cloudburstlab.vercel.app" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-block align-text-bottom hover:opacity-80 transition-opacity"
+            >
+              <Image 
+                src="https://cloudburstlab.vercel.app/api/branding/logo?variant=transparent" 
+                alt="CloudBurst Lab" 
+                width={160}
+                height={28}
+                className="inline-block h-7 w-auto"
+              />
+            </Link>
+          </p>
+          <p className="text-xs text-gray-400">
+            © {new Date().getFullYear()} CloudBurst Lab. All rights reserved.
+          </p>
+        </div>
+      </footer>
     </main>
   );
 }

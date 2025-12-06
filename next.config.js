@@ -14,6 +14,12 @@ const nextConfig = {
                 port: '',
                 pathname: '/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'cloudburstlab.vercel.app',
+                port: '',
+                pathname: '/**',
+            },
         ],
     },
 }

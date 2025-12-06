@@ -12,7 +12,6 @@
 
 <img src="https://github.com/shawkath646/birthday-wish/blob/main/src/app/opengraph-image.png?raw=true" alt="Birthday Wish Platform" width="800">
 
-[Live Demo](https://birthday-wish-eight.vercel.app/) · [Report Bug](https://github.com/shawkath646/birthday-wish/issues) · [Request Feature](https://github.com/shawkath646/birthday-wish/issues)
 
 </div>
 
@@ -499,19 +498,18 @@ export default function Timer({ dateOfBirth, isPreview }) {
 
 ---
 
-## 🏢 Made By
+## 🏢 Powered By
 
 <div align="center">
 
 <img src="https://cloudburstlab.vercel.app/api/branding/logo?variant=transparent" alt="Cloudburst Lab" width="200" />
 
-**Cloudburst Lab** is a digital innovation studio focused on creating exceptional web and mobile applications. We specialize in modern JavaScript frameworks, cloud technologies, and user-centric design principles.
+<br />
 
-[Visit CloudBurst Lab](https://cloudburstlab.vercel.app)
+**Cloudburst Lab** is a digital innovation studio focused on creating exceptional web and mobile applications. We specialize in modern JavaScript frameworks, cloud technologies, and user-centric design principles.
 
 </div>
 
----
 
 ## 📄 License
 
@@ -546,16 +544,4 @@ The source code is available for viewing and learning purposes. For commercial u
 
 ### ⭐ Star this repository if you find it helpful!
 
-### 🎂 Make someone's birthday special today!
-
-[Live Demo](https://birthday-wish-eight.vercel.app/) | [Report Issue](https://github.com/shawkath646/birthday-wish/issues) | [Contact Author](mailto:shawkath646@gmail.com)
-
 </div>
-
-- Email: shawkath646@gmail.com
-
-- Occupation: Student
-
-<img  src="https://storage.googleapis.com/sh-cloudburst-labs.appspot.com/cloudburst_lab_logo_transparent.png?GoogleAccessId=firebase-adminsdk-lf84z%40sh-cloudburst-labs.iam.gserviceaccount.com&Expires=4863727974&Signature=B1G9adLuRnjVIxGHoh3dyMVtGsR00KdmatEJRzKpMHPDjgsUX%2Bi9VftAz71puzbFmFsC5xP%2FHZFcBKQ7NBfJbkQzhiuywJMBmOSJlsn7mNfLgZlEsU5ReaNaMXDF6y3W65YeR76u2XBiQjAvVNl%2FEIvMvgbanNJWoDULrxF1OgeF1q8O270oT05ZfzIytLpi7c%2BbBIv6OtmzeUHNa0KJaTX0QPcdesQKFL0pQpaQPncdk6iQtOCOUafgKfQregHwn9iOo1iW1SM4sLw92uJURvLWimyq8JUWjc8J8AXyActsuwQs9IRQz5%2BUjc4k5zVwIS4fQDODvN8t97FDR2Sg7g%3D%3D"  alt="CloudBurst Logo"  height="80" width="150">
-
-*A product of [CloudBurst Lab](https://cloudburstlab.vercel.app)*

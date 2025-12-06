@@ -1,5 +1,7 @@
 "use client";
-import { motion } from "framer-motion"
+import Link from "next/link";
+import Image from 'next/image';
+import { motion } from "framer-motion";
 
 interface GoodByeProps {
   personName: string;
@@ -49,6 +51,41 @@ const GoodBye: React.FC<GoodByeProps> = ({ personName }) => (
                 </motion.button>
             </motion.div>
         </article>
+
+        {/* Footer */}
+        <footer className="absolute bottom-0 left-0 right-0 py-4 px-4">
+            <div className="max-w-3xl mx-auto text-center space-y-2">
+                <p className="text-sm">
+                    This app is developed by{' '}
+                    <Link 
+                        href="https://shawkath646.vercel.app" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-white hover:text-gray-200 font-semibold underline transition-colors"
+                    >
+                        Shawkat Hossain Maruf
+                    </Link>
+                    {' '}on behalf of{' '}
+                    <Link 
+                        href="https://cloudburstlab.vercel.app" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-block align-text-bottom hover:opacity-80 transition-opacity"
+                    >
+                        <Image 
+                            src="https://cloudburstlab.vercel.app/api/branding/logo?variant=transparent" 
+                            alt="CloudBurst Lab" 
+                            width={140}
+                            height={24}
+                            className="inline-block h-6 w-auto"
+                        />
+                    </Link>
+                </p>
+                <p className="text-xs opacity-80">
+                    © {new Date().getFullYear()} CloudBurst Lab. All rights reserved.
+                </p>
+            </div>
+        </footer>
     </motion.main>
 );
 
