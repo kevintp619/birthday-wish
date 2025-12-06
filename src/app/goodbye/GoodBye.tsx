@@ -1,18 +1,19 @@
 "use client";
-import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion"
-import { BrandDataType } from "shas-app-controller/types";
 
-const GoodBye: React.FC<{ brandData: BrandDataType }> = ({ brandData }) => (
-    <motion.div
+interface GoodByeProps {
+  personName: string;
+}
+
+const GoodBye: React.FC<GoodByeProps> = ({ personName }) => (
+    <motion.main
         initial={{ opacity: 0, y: '50px' }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: '-50px' }}
         transition={{ duration: 0.5 }}
-        className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white py-12 px-6 md:px-12 relative flex min-h-screen items-center"
+        className="bg-gradient-to-r from-purple-500 to-indigo-500 dark:from-purple-900 dark:to-indigo-950 text-white py-12 px-6 md:px-12 relative flex min-h-screen items-center"
     >
-        <div className="max-w-3xl mx-auto text-center">
+        <article className="max-w-3xl mx-auto text-center">
             <motion.h1
                 initial={{ opacity: 0, y: '50px' }}
                 animate={{ opacity: 1, y: 0 }}
@@ -41,30 +42,14 @@ const GoodBye: React.FC<{ brandData: BrandDataType }> = ({ brandData }) => (
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.8, duration: 0.5 }}
-                    className="bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white rounded-full py-3 px-8 font-bold text-lg md:text-xl shadow-lg focus:outline-none"
+                    className="bg-white dark:bg-gray-200 text-indigo-500 dark:text-indigo-700 hover:bg-indigo-500 dark:hover:bg-indigo-700 hover:text-white rounded-full py-3 px-8 font-bold text-lg md:text-xl shadow-lg focus:outline-none transition-colors"
+                    aria-label="Say goodbye and close celebration"
                 >
                     Say Goodbye
                 </motion.button>
             </motion.div>
-        </div>
-        {brandData && (
-            <footer className="absolute bottom-0 left-0 w-full">
-                <section className="container mx-auto">
-                    <div className="flex space-x-2 items-center">
-                        {(brandData.iconWhite && brandData.website) && (
-                            <Link href={brandData.website} className="mb-4 rounded-lg overflow-hidden">
-                                <Image src={brandData.iconWhite} alt={`${brandData.name} logo`} height={80} width={80} className="h-[80px] w-[80px]" />
-                            </Link>
-                        )}
-                        <p>A product of {brandData.name}</p>
-                    </div>
-                    {brandData?.copyrightText && (
-                        <p className="py-1.5 text-center bg-gray-700/50 rounded">{brandData.copyrightText}</p>
-                    )}
-                </section>
-            </footer>
-        )}
-    </motion.div>
+        </article>
+    </motion.main>
 );
 
 export default GoodBye;

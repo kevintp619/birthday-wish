@@ -3,45 +3,49 @@ import DigitalDigit from 'digital-digit';
 
 interface TimerProps {
   soundEnabled: boolean;
-  setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentStep: () => void;
+  dateOfBirth: string;
+  isPreview: boolean;
 }
 
-const Timer: React.FC<TimerProps> = ({ soundEnabled, setCurrentStep }) => {
+const Timer: React.FC<TimerProps> = ({ soundEnabled, setCurrentStep, dateOfBirth, isPreview }) => {
 
   const [time, setTime] = useState(0);
 
   useEffect(() => {
-    const calculateTimeUntilNextChristmas = () => {
-
-      const dateOfBirth = process.env.NEXT_PUBLIC_DATE_OF_BIRTH || "2001-01-01";
-
+    const calculateTimeUntilBirthday = () => {
       const now = new Date();
       const currentYear = now.getFullYear();
       const dob = new Date(dateOfBirth);
-      const christmas = new Date(`${currentYear}-${dob.getMonth() + 1}-${dob.getDate()}`);
-
-      if (now.getMonth() === dob.getMonth() && now.getDate() === dob.getDate()) {
+      
+      // Create birthday date for this year
+      const birthdayThisYear = new Date(currentYear, dob.getMonth(), dob.getDate(), 0, 0, 0, 0);
+      
+      // Check if birthday is today
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+      if (birthdayThisYear.getTime() === today.getTime()) {
+        setTime(0);
         setTimeout(() => {
-          setCurrentStep(1);
-          return () => clearInterval(timer);
-        }, 1000);
+          setCurrentStep();
+        }, 2000);
+        return;
       }
 
-      if (now > christmas) {
-        const nextChristmas = new Date(`${currentYear + 1}-${dob.getMonth() + 1}-${dob.getDate()}`);
-        const timeDifference = nextChristmas.getTime() - now.getTime();
-        setTime(timeDifference);
-      } else {
-        const timeDifference = christmas.getTime() - now.getTime();
-        setTime(timeDifference);
+      // If birthday has passed this year, calculate for next year
+      let targetBirthday = birthdayThisYear;
+      if (now > birthdayThisYear) {
+        targetBirthday = new Date(currentYear + 1, dob.getMonth(), dob.getDate(), 0, 0, 0, 0);
       }
+      
+      const timeDifference = targetBirthday.getTime() - now.getTime();
+      setTime(Math.max(0, timeDifference));
     };
 
-    const timer = setInterval(calculateTimeUntilNextChristmas, 1000);
-    calculateTimeUntilNextChristmas(); // Initial calculation
+    const timer = setInterval(calculateTimeUntilBirthday, 1000);
+    calculateTimeUntilBirthday(); // Initial calculation
 
     return () => clearInterval(timer);
-  }, []);
+  }, [setCurrentStep, dateOfBirth]);
 
   useEffect(() => {
     let alarmAudio: HTMLAudioElement | null = null;
@@ -145,9 +149,11 @@ const Timer: React.FC<TimerProps> = ({ soundEnabled, setCurrentStep }) => {
         </div>
       </div>
 
-      <div className='absolute bottom-10'>
-        <button type='button' onClick={() => setCurrentStep(1)} className='block max-w-[200px]  mx-auto py-1.5 px-4 bg-pink-600 rounded outline-none hover:bg-pink-700 disabled:bg-gray-400 transition-all'>Skip Timer</button>
-      </div>
+      {isPreview && (
+        <div className='absolute bottom-10'>
+          <button type='button' onClick={setCurrentStep} className='block max-w-[200px] mx-auto py-1.5 px-4 bg-pink-600 dark:bg-pink-700 rounded outline-none hover:bg-pink-700 dark:hover:bg-pink-800 disabled:bg-gray-400 dark:disabled:bg-gray-600 transition-all text-white font-semibold'>Skip Timer (Preview)</button>
+        </div>
+      )}
     </section>
   );
 };

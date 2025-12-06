@@ -5,9 +5,8 @@ import Timer from '@/components/Timer'
 import HappyBirthday from '@/components/HappyBirthday';
 import Message from '@/components/Message';
 import GoodBye from '@/components/GoodBye';
-import { BrandDataType } from "shas-app-controller/types";
 
-const BirthdayBox: React.FC<{ brandData: BrandDataType }> = ({ brandData }) => {
+const BirthdayBox = () => {
 
     const [currentStep, setCurrentStep] = useState(0);
     const [soundEnabled, setSoundEnabled] = useState(false);
@@ -29,7 +28,7 @@ const BirthdayBox: React.FC<{ brandData: BrandDataType }> = ({ brandData }) => {
                         transition={{ duration: 0.8 }}
                         className='h-full'
                     >
-                        <Timer soundEnabled={soundEnabled} setCurrentStep={setCurrentStep} />
+                        <Timer soundEnabled={soundEnabled} setCurrentStep={() => setCurrentStep(1)} />
                     </motion.div>
                 )}
 
@@ -42,7 +41,7 @@ const BirthdayBox: React.FC<{ brandData: BrandDataType }> = ({ brandData }) => {
                         transition={{ duration: 0.8 }}
                         className='h-full'
                     >
-                        <HappyBirthday soundEnabled={soundEnabled} setCurrentStep={setCurrentStep} />
+                        <HappyBirthday soundEnabled={soundEnabled} setCurrentStep={() => setCurrentStep(2)} />
                     </motion.div>
                 )}
 
@@ -55,7 +54,7 @@ const BirthdayBox: React.FC<{ brandData: BrandDataType }> = ({ brandData }) => {
                         transition={{ duration: 0.8 }}
                         className='h-full'
                     >
-                        <Message setCurrentStep={setCurrentStep} />
+                        <Message setCurrentStep={() => setCurrentStep(3)} />
                     </motion.div>
                 )}
 
@@ -68,7 +67,7 @@ const BirthdayBox: React.FC<{ brandData: BrandDataType }> = ({ brandData }) => {
                         transition={{ duration: 0.8 }}
                         className='h-full'
                     >
-                        <GoodBye brandData={brandData} />
+                        <GoodBye />
                     </motion.div>
                 )}
 

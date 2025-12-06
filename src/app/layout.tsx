@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import {  Poppins } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/react"
-import SHAS from 'shas-app-controller'
 import './globals.css'
 
 
@@ -12,7 +11,7 @@ export const metadata: Metadata = {
   authors: [
     {
       name: "Shawkat Hossain Maruf",
-      url: "https://sh-portfolio-maker.vercel.app/p/shawkath646"
+      url: "https://shawkath646.pro"
     }
   ],
   title: {
@@ -24,23 +23,22 @@ export const metadata: Metadata = {
   icons: ["/favicon.ico"],
   publisher: "CloudBurst Lab",
   creator: "Shawkat Hossain Maruf",
-  keywords: ["Next.js 14", "birthday wishes", "animated greetings", "well-organized", "remotely wish", "timer wish", "special occasions", "celebration", "heartfelt messages", "joyous moments", "virtual celebrations", "digital greetings", "responsive design", "animated birthday wishes", "seamless wishes", "remote celebrations", "best wishes", "personalized messages", "cloudburst lab"],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_BASE_URL as string),
+  keywords: ["Next.js 16", "birthday wishes", "animated greetings", "well-organized", "remotely wish", "timer wish", "special occasions", "celebration", "heartfelt messages", "joyous moments", "virtual celebrations", "digital greetings", "responsive design", "animated birthday wishes", "seamless wishes", "remote celebrations", "best wishes", "personalized messages", "cloudburst lab"],
+  metadataBase: process.env.NEXT_PUBLIC_APP_BASE_URL,
   openGraph: {
     images: '/opengraph-image.png',
   },
 }
 
-export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
-
-  const { ContentWrapper } = await SHAS({
-    imageOptimization: true
-  });
-
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <ContentWrapper>{children}</ContentWrapper>
+    <html lang="en" className="dark:[color-scheme:dark]">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#9333ea" />
+      </head>
+      <body className={`${inter.className} bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors`}>
+        {children}
         <Analytics />
       </body>
     </html>
