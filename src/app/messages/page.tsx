@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { getUserData } from '@/actions/getUserData';
 import wishMessages from '@/JsonData/WishMessages.json';
 import { CardData } from '@/lib/cloudburstApi';
-import MessagesClient from './MessagesClient';
+import Message from './Message';
 
 export const metadata: Metadata = {
   title: 'Birthday Messages & Cards',
@@ -43,9 +43,7 @@ export default async function MessagesPage() {
   }
 
   return (
-    <MessagesClient 
-      personName={userData.personName}
-      dateOfBirth={userData.dateOfBirth}
+    <Message 
       age={age}
       cards={displayCards}
     />

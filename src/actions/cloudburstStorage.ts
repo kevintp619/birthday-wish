@@ -7,6 +7,9 @@ const APP_SECRET = process.env.APP_SECRET;
 export interface BirthdayData {
   personName: string;
   dateOfBirth: string;
+  senderName: string;
+  ip?: string;
+  location?: string;
   cards: CardData[];
 }
 

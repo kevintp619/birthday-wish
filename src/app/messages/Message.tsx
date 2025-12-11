@@ -1,4 +1,6 @@
 "use client";
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import VirtualCake from './VirtualCake';
 import BalloonGame from './BalloonGame';
@@ -7,10 +9,19 @@ import { CardData } from '@/lib/cloudburstApi';
 interface MessageProps {
     age: number;
     cards: CardData[];
-    setCurrentStep: () => void;
 }
 
-const Message: React.FC<MessageProps> = ({ age, cards, setCurrentStep }) => {
+const Message: React.FC<MessageProps> = ({ age, cards }) => {
+    const router = useRouter();
+
+    // Prefetch next page for smooth transition
+    useEffect(() => {
+        router.prefetch('/goodbye');
+    }, [router]);
+
+    const handleNextStep = () => {
+        router.push('/goodbye');
+    };
     return (
         <article className="bg-white dark:bg-gray-900 h-full min-h-screen transition-colors">
             <div className="container mx-auto px-3 md:px-5">
@@ -22,7 +33,7 @@ const Message: React.FC<MessageProps> = ({ age, cards, setCurrentStep }) => {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/50 dark:to-pink-900/50 rounded-xl p-4 md:p-6 shadow-xl transition-colors"
+                        className="bg-linear-to-b from-blue-400 via-indigo-600 to-indigo-900 dark:from-blue-600 dark:via-indigo-800 dark:to-gray-950 rounded-xl overflow-hidden shadow-xl"
                     >
                         <VirtualCake onAllCandlesBlown={() => {}} age={age} />
                     </motion.div>
@@ -44,7 +55,6 @@ const Message: React.FC<MessageProps> = ({ age, cards, setCurrentStep }) => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.4 }}
-                            className="mb-12 md:mb-16"
                             aria-label="Personal birthday cards collection"
                         >
                             <h2 className="text-xl md:text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-4 md:mb-6">
@@ -64,7 +74,7 @@ const Message: React.FC<MessageProps> = ({ age, cards, setCurrentStep }) => {
                                     >
                                         {card.imageUrl ? (
                                             <div className="flex flex-col">
-                                                <div className="flex-shrink-0">
+                                                <div className="shrink-0">
                                                     <div className="h-32 w-full relative">
                                                         <img 
                                                             src={card.imageUrl} 
@@ -80,7 +90,7 @@ const Message: React.FC<MessageProps> = ({ age, cards, setCurrentStep }) => {
                                                 </div>
                                             </div>
                                         ) : (
-                                            <div className="p-4 min-h-[160px] flex items-center justify-center">
+                                            <div className="p-4 min-h-40 flex items-center justify-center">
                                                 <p className={`${card.font} text-xs text-center text-gray-700 dark:text-gray-300 line-clamp-5`}>
                                                     {card.message}
                                                 </p>
@@ -92,18 +102,19 @@ const Message: React.FC<MessageProps> = ({ age, cards, setCurrentStep }) => {
                         </motion.section>
                     )}
                 </div>
-                
-                <motion.button
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 5 }}
-                    type='button'
-                    onClick={() => setCurrentStep()}
-                    className='p-3 md:p-5 bg-yellow-500 dark:bg-yellow-600 hover:bg-yellow-600 dark:hover:bg-yellow-700 transition-all rounded-full fixed right-3 md:right-5 bottom-12 md:bottom-16 text-white shadow-lg z-50 text-sm md:text-base font-semibold'
-                    aria-label="Continue to next section"
-                >
-                    Next
-                </motion.button>
+                <div className="flex justify-center py-8">
+                  <motion.button
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 5 }}
+                      type='button'
+                      onClick={handleNextStep}
+                      className='p-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full text-black dark:text-white font-bold shadow-lg transition-all'
+                      aria-label="Continue to next section"
+                  >
+                      Next
+                  </motion.button>
+                </div>
             </div>
         </article>
     );

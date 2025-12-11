@@ -13,7 +13,7 @@ const GoodBye: React.FC<GoodByeProps> = ({ personName }) => (
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: '-50px' }}
         transition={{ duration: 0.5 }}
-        className="bg-gradient-to-r from-purple-500 to-indigo-500 dark:from-purple-900 dark:to-indigo-950 text-white py-12 px-6 md:px-12 relative flex min-h-screen items-center"
+        className="bg-linear-to-r from-purple-500 to-indigo-500 dark:from-purple-900 dark:to-indigo-950 text-white py-12 px-6 md:px-12 relative flex min-h-screen items-center"
     >
         <article className="max-w-3xl mx-auto text-center">
             <motion.h1
@@ -52,39 +52,45 @@ const GoodBye: React.FC<GoodByeProps> = ({ personName }) => (
             </motion.div>
         </article>
 
-        {/* Footer */}
-        <footer className="absolute bottom-0 left-0 right-0 py-4 px-4">
-            <div className="max-w-3xl mx-auto text-center space-y-2">
-                <p className="text-sm">
-                    This app is developed by{' '}
-                    <Link 
-                        href="https://shawkath646.vercel.app" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-white hover:text-gray-200 font-semibold underline transition-colors"
-                    >
-                        Shawkat Hossain Maruf
-                    </Link>
-                    {' '}on behalf of{' '}
-                    <Link 
-                        href="https://cloudburstlab.vercel.app" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="inline-block align-text-bottom hover:opacity-80 transition-opacity"
-                    >
-                        <Image 
-                            src="https://cloudburstlab.vercel.app/api/branding/logo?variant=transparent" 
-                            alt="CloudBurst Lab" 
-                            width={140}
-                            height={24}
-                            className="inline-block h-6 w-auto"
-                        />
-                    </Link>
-                </p>
-                <p className="text-xs opacity-80">
-                    © {new Date().getFullYear()} CloudBurst Lab. All rights reserved.
-                </p>
+        {/* Professional Credit Section */}
+        <footer className="w-full fixed left-0 bottom-0 z-30 py-6 bg-white/10 backdrop-blur-sm flex flex-col items-center justify-center text-center text-sm md:text-base rounded-t-xl px-4">
+          <div className="mb-2 w-full flex flex-col md:flex-row md:items-center md:justify-center gap-2 md:gap-4">
+            <div className="flex flex-col items-center w-full md:w-auto">
+              <span>Visit developer</span>
+              <Link
+                href="https://shawkath646.pro"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:text-blue-700 font-semibold"
+              >
+                Shawkat Hossain Maruf
+              </Link>
             </div>
+            <span className="hidden md:inline">|</span>
+            <div className="flex flex-col items-center w-full md:w-auto">
+              <span>More projects</span>
+              <Link
+                href="https://shawkath646.pro/projects"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple-500 hover:text-purple-700 font-semibold"
+              >
+                Portfolio
+              </Link>
+            </div>
+          </div>
+          <div className="mt-2 flex flex-col md:flex-row items-center justify-center gap-2 text-gray-700 dark:text-gray-300 w-full">
+            <span>This app is powered by</span>
+            <Link href="https://cloudburstlab.vercel.app" target="_blank" rel="noopener noreferrer" className="inline-block align-text-bottom hover:opacity-80 transition-opacity">
+              <Image 
+                src="https://cloudburstlab.vercel.app/api/branding/logo?variant=transparent" 
+                alt="CloudBurst Lab" 
+                width={120}
+                height={24}
+                className="inline-block h-6 w-auto"
+              />
+            </Link>
+          </div>
         </footer>
     </motion.main>
 );

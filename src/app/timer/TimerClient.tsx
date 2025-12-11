@@ -1,29 +1,32 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Timer from './Timer';
-import { CardData } from '@/lib/cloudburstApi';
-
 interface TimerClientProps {
-  personName: string;
   dateOfBirth: string;
-  cards: CardData[];
   isPreview: boolean;
 }
 
-export default function TimerClient({ personName, dateOfBirth, cards, isPreview }: TimerClientProps) {
+export default function TimerClient({ dateOfBirth, isPreview }: TimerClientProps) {
   const router = useRouter();
   const [soundEnabled, setSoundEnabled] = useState(false);
+
+  // Prefetch next page for smooth transition
+  useEffect(() => {
+    router.prefetch('/celebrate');
+  }, [router]);
 
   const handleNextStep = () => {
     router.push('/celebrate');
   };
 
+  const toggleSound = () => setSoundEnabled(prev => !prev);
+
   return (
     <main className='overflow-hidden relative min-h-screen bg-black'>
       <button 
-        onClick={() => setSoundEnabled(prev => !prev)} 
-        className='absolute right-5 top-5 bg-pink-500 dark:bg-pink-700 hover:bg-pink-600 dark:hover:bg-pink-800 text-white p-3 rounded-full z-[99] transition-colors'
+        onClick={toggleSound} 
+        className='absolute right-5 top-5 bg-pink-500 dark:bg-pink-700 hover:bg-pink-600 dark:hover:bg-pink-800 text-white p-3 rounded-full z-99 transition-colors'
         aria-label={soundEnabled ? "Mute countdown sound" : "Unmute countdown sound"}
         aria-pressed={soundEnabled}
       >

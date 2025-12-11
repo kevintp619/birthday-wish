@@ -14,12 +14,12 @@ const CardCreator: React.FC<CardCreatorProps> = ({ personName, age }) => {
   const [showPreview, setShowPreview] = useState(false);
 
   const themes = {
-    gradient: 'bg-gradient-to-br from-pink-400 via-purple-400 to-indigo-500',
-    sunset: 'bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600',
-    ocean: 'bg-gradient-to-br from-blue-400 via-cyan-400 to-teal-500',
-    forest: 'bg-gradient-to-br from-green-400 via-emerald-500 to-teal-600',
-    romantic: 'bg-gradient-to-br from-rose-400 via-pink-500 to-red-500',
-    golden: 'bg-gradient-to-br from-yellow-400 via-orange-400 to-amber-500'
+    gradient: 'bg-linear-to-br from-pink-400 via-purple-400 to-indigo-500',
+    sunset: 'bg-linear-to-br from-orange-400 via-pink-500 to-purple-600',
+    ocean: 'bg-linear-to-br from-blue-400 via-cyan-400 to-teal-500',
+    forest: 'bg-linear-to-br from-green-400 via-emerald-500 to-teal-600',
+    romantic: 'bg-linear-to-br from-rose-400 via-pink-500 to-red-500',
+    golden: 'bg-linear-to-br from-yellow-400 via-orange-400 to-amber-500'
   };
 
   const fonts = {
@@ -96,13 +96,18 @@ const CardCreator: React.FC<CardCreatorProps> = ({ personName, age }) => {
         {/* Custom message */}
         <div className="mb-3 md:mb-4">
           <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">
-            Your Message:
+            Your Message: <span className="text-gray-500">({customMessage.length}/500)</span>
           </label>
           <textarea
             value={customMessage}
-            onChange={(e) => setCustomMessage(e.target.value)}
+            onChange={(e) => {
+              if (e.target.value.length <= 500) {
+                setCustomMessage(e.target.value);
+              }
+            }}
             placeholder="Write your heartfelt birthday message..."
             className="w-full h-20 md:h-24 p-2 md:p-3 text-sm md:text-base border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none resize-none"
+            maxLength={500}
           />
         </div>
 

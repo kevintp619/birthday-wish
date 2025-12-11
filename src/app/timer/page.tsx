@@ -22,9 +22,7 @@ export default async function TimerPage() {
 
   return (
     <TimerClient 
-      personName={userData.personName}
       dateOfBirth={userData.dateOfBirth}
-      cards={userData.cards}
       isPreview={userData.isPreview || false}
     />
   );

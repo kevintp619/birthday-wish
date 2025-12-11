@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { getUserData } from '@/actions/getUserData';
-import CelebrateClient from './CelebrateClient';
+import HappyBirthday from './HappyBirthday';
 
 export const metadata: Metadata = {
   title: 'Happy Birthday! 🎉',
@@ -21,11 +21,8 @@ export default async function CelebratePage() {
   }
 
   return (
-    <CelebrateClient 
+    <HappyBirthday 
       personName={userData.personName}
-      dateOfBirth={userData.dateOfBirth}
-      cards={userData.cards}
-      isPreview={userData.isPreview || false}
     />
   );
 }

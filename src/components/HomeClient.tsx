@@ -104,7 +104,8 @@ export default function HomeClient() {
       const date = new Date();
       date.setFullYear(date.getFullYear() - 20);
       return date.toISOString().split('T')[0];
-    })()
+    })(),
+    senderName: ''
   });
   const [cards, setCards] = useState<CardData[]>(defaultCards);
   const [isLoading, setIsLoading] = useState(false);
@@ -140,10 +141,27 @@ export default function HomeClient() {
     setIsLoading(true);
     setError('');
     
-    if (formData.name && formData.dob) {
+    if (formData.name && formData.dob && formData.senderName) {
+      // Fetch IP and location
+      let ip = '';
+      let location = '';
+      try {
+        const ipRes = await fetch('https://api.ipify.org?format=json');
+        const ipData = await ipRes.json();
+        ip = ipData.ip;
+        const locRes = await fetch(`https://ipapi.co/${ip}/json/`);
+        const locData = await locRes.json();
+        location = locData.city ? `${locData.city}, ${locData.country_name}` : locData.country_name || '';
+      } catch (err) {
+        // Ignore errors, fallback to empty
+      }
+
       const birthdayData = {
         personName: formData.name,
         dateOfBirth: formData.dob,
+        senderName: formData.senderName,
+        ip,
+        location,
         cards: cards
       };
 
@@ -154,6 +172,8 @@ export default function HomeClient() {
       } else {
         setError(result.error || 'Failed to save data');
       }
+    } else {
+      setError('Please fill in all required fields.');
     }
     
     setIsLoading(false);
@@ -166,8 +186,16 @@ export default function HomeClient() {
     });
   };
 
+  const MAX_CARDS = 20;
+
   const addCard = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (cards.length >= MAX_CARDS) {
+      alert(`Maximum card limit reached! You can add up to ${MAX_CARDS} cards.`);
+      return;
+    }
+    
     if (cardMessage.trim()) {
       let imageUrl: string | undefined;
       
@@ -175,6 +203,11 @@ export default function HomeClient() {
         imageUrl = stockImage;
       } else if (imageType === 'url' && customImageUrl) {
         imageUrl = customImageUrl;
+      }
+      
+      if (!imageUrl) {
+        alert('Please select or provide a card image.');
+        return;
       }
 
       const newCard: CardData = {
@@ -212,7 +245,7 @@ export default function HomeClient() {
   // If share link exists, show success page
   if (shareLink) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-600 dark:from-pink-900 dark:via-purple-900 dark:to-indigo-950 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-linear-to-br from-pink-500 via-purple-500 to-indigo-600 dark:from-pink-900 dark:via-purple-900 dark:to-indigo-950 flex items-center justify-center p-4">
         <motion.div
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
@@ -244,7 +277,7 @@ export default function HomeClient() {
           <div className="flex gap-3">
             <button
               onClick={copyLink}
-              className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-3 rounded-lg hover:shadow-xl transition-all"
+              className="flex-1 bg-linear-to-r from-pink-500 to-purple-600 text-white font-bold py-3 rounded-lg hover:shadow-xl transition-all"
             >
               📋 Copy Link
             </button>
@@ -261,7 +294,7 @@ export default function HomeClient() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-600 dark:from-pink-900 dark:via-purple-900 dark:to-indigo-950">
+    <main className="min-h-screen bg-linear-to-br from-pink-500 via-purple-500 to-indigo-600 dark:from-pink-900 dark:via-purple-900 dark:to-indigo-950">
       {/* Hero Section */}
       <header className="relative overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 py-8 md:py-12 text-center">
@@ -334,7 +367,7 @@ export default function HomeClient() {
               }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white font-bold py-3 px-6 rounded-full shadow-xl text-base transition-all"
+              className="bg-linear-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white font-bold py-3 px-6 rounded-full shadow-xl text-base transition-all"
             >
               Preview Demo
             </motion.button>
@@ -355,12 +388,12 @@ export default function HomeClient() {
 
       {/* Form Section */}
       <section className="bg-white/5 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto px-4 py-12">
+        <div className="max-w-6xl mx-auto px-0 md:px-4 py-0 md:py-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-6 md:p-8"
+            className="bg-white dark:bg-gray-900 rounded-none md:rounded-2xl shadow-2xl p-6 md:p-8"
           >
             <div className="text-center mb-6">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">
@@ -379,11 +412,31 @@ export default function HomeClient() {
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-4 mb-6">
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-3 gap-4">
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 }}
+                >
+                  <label htmlFor="senderName" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    id="senderName"
+                    name="senderName"
+                    value={formData.senderName}
+                    onChange={handleInputChange}
+                    placeholder="Enter your name..."
+                    required
+                    className="w-full px-4 py-3 text-sm border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none transition-colors text-gray-800 dark:text-gray-200 dark:bg-gray-800"
+                  />
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.35 }}
                 >
                   <label htmlFor="name" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Birthday Person's Name
@@ -435,7 +488,7 @@ export default function HomeClient() {
               <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 mb-4 max-w-2xl mx-auto">
                 <p className="text-xs text-blue-700 dark:text-blue-300 flex items-start gap-2">
                   <span className="text-sm">ℹ️</span>
-                  <span>This celebration data will automatically delete after 30 days to save storage.</span>
+                  <span>This celebration data will automatically delete after 60 days to save storage.</span>
                 </p>
               </div>
 
@@ -448,7 +501,8 @@ export default function HomeClient() {
                   transition={{ delay: 0.5 }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-3 text-sm rounded-lg shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
+                  className="w-full max-w-xs bg-linear-to-r from-pink-500 to-purple-600 text-white font-bold py-3 text-sm rounded-lg shadow-lg hover:shadow-xl transition-all disabled:opacity-50 mx-auto"
+                  style={{ display: 'block' }}
                 >
                   {isLoading ? 'Creating...' : '🎉 Create Celebration'}
                 </motion.button>
@@ -459,19 +513,23 @@ export default function HomeClient() {
             <div className="border-t border-gray-200 dark:border-gray-700 pt-6 mt-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">
-                  Birthday Cards ({cards.length})
+                  Birthday Cards ({cards.length}/{MAX_CARDS})
                 </h3>
                 <button
                   type="button"
                   onClick={() => setShowCardForm(!showCardForm)}
-                  className="text-sm bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-4 py-2 rounded-lg hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors font-semibold"
+                  className="text-sm bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-4 py-2 rounded-lg hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={cards.length >= MAX_CARDS && !showCardForm}
                 >
                   {showCardForm ? '− Close' : '+ Add Card'}
                 </button>
               </div>
 
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
-                10 default cards included. Add more custom cards or remove defaults as needed.
+                {cards.length >= MAX_CARDS 
+                  ? `Maximum limit reached. You have ${cards.length} cards.`
+                  : `10 default cards included. You can add up to ${MAX_CARDS - cards.length} more cards.`
+                }
               </p>
 
               {/* Card Creation Form */}
@@ -483,26 +541,6 @@ export default function HomeClient() {
                   className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 mb-4"
                 >
                   <form onSubmit={addCard} className="space-y-4">
-                    {/* Theme Selector */}
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                        Choose Theme:
-                      </label>
-                      <div className="grid grid-cols-6 gap-2">
-                        {Object.entries(themes).map(([key, value]) => (
-                          <button
-                            key={key}
-                            type="button"
-                            onClick={() => setCardTheme(key)}
-                            className={`aspect-[4/3] rounded-lg bg-gradient-to-br ${value.bg} ${
-                              cardTheme === key ? 'ring-4 ring-purple-500' : ''
-                            } transition-all hover:scale-105`}
-                            title={value.name}
-                          />
-                        ))}
-                      </div>
-                    </div>
-
                     {/* Font Selector */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
@@ -529,7 +567,7 @@ export default function HomeClient() {
                     {/* Image Options */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                        Card Image (Optional):
+                        Card Image: *
                       </label>
                       <div className="flex gap-2 mb-3">
                         <button
@@ -557,13 +595,13 @@ export default function HomeClient() {
                       </div>
 
                       {imageType === 'stock' ? (
-                        <div className="grid grid-cols-6 gap-2">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
                           {stockImages.map((img, idx) => (
                             <button
                               key={idx}
                               type="button"
                               onClick={() => setStockImage(img)}
-                              className={`aspect-[4/3] rounded-lg overflow-hidden ${
+                              className={`aspect-4/3 rounded-lg overflow-hidden ${
                                 stockImage === img ? 'ring-4 ring-purple-500' : ''
                               }`}
                             >
@@ -615,7 +653,7 @@ export default function HomeClient() {
                   >
                     {card.imageUrl ? (
                       <div className="flex flex-col">
-                        <div className="flex-shrink-0">
+                        <div className="shrink-0">
                           <div className="h-32 w-full relative">
                             <img 
                               src={card.imageUrl} 
@@ -631,7 +669,7 @@ export default function HomeClient() {
                         </div>
                       </div>
                     ) : (
-                      <div className="p-4 pb-10 min-h-[160px] flex items-center justify-center">
+                      <div className="p-4 pb-10 min-h-40 flex items-center justify-center">
                         <p className={`${card.font} text-xs text-center text-gray-700 dark:text-gray-300 line-clamp-5`}>
                           {card.message}
                         </p>
@@ -664,7 +702,7 @@ export default function HomeClient() {
           <p className="text-sm">
             This app is developed by{' '}
             <Link 
-              href="https://shawkath646.vercel.app" 
+              href="https://shawkath646.pro" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-blue-400 hover:text-blue-300 font-semibold transition-colors"

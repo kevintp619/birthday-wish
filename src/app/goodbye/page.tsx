@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { getUserData } from '@/actions/getUserData';
-import GoodbyeClient from './GoodbyeClient';
+import GoodBye from './GoodBye';
 
 export const metadata: Metadata = {
   title: 'See You Again! | Thank You',
@@ -21,7 +21,7 @@ export default async function GoodbyePage() {
   }
 
   return (
-    <GoodbyeClient 
+    <GoodBye 
       personName={userData.personName}
     />
   );
