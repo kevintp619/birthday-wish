@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { getUserData } from '@/actions/getUserData';
-import wishMessages from '@/JsonData/WishMessages.json';
 import { CardData } from '@/lib/cloudburstApi';
 import Message from './Message';
+import { defaultCards } from '@/app/page';
+import { getApplicationDataById } from '@/actions/cloudburstStorage';
 
 export const metadata: Metadata = {
   title: 'Birthday Messages & Cards',
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 
 export default async function MessagesPage() {
   const userData = await getUserData();
-  
+
   if (!userData) {
     redirect('/');
   }
@@ -29,21 +30,18 @@ export default async function MessagesPage() {
     age--;
   }
 
-  let displayCards: CardData[] = userData.cards;
-  
-  if (userData.isPreview) {
-    displayCards = wishMessages.messages.map((msg, index) => ({
-      id: `default-${index + 1}`,
-      theme: ['gradient', 'sunset', 'ocean', 'forest', 'romantic', 'golden', 'gradient', 'sunset', 'ocean', 'forest'][index],
-      font: ['font-sans', 'font-serif', 'font-sans', 'font-sans', 'font-serif', 'font-sans', 'font-serif', 'font-sans', 'font-mono', 'font-serif'][index],
-      message: msg.message,
-      imageUrl: msg.image,
-      createdAt: new Date().toISOString()
-    }));
+  let displayCards: CardData[] = defaultCards;
+
+  if (userData.dbId !== "preview") {
+    const fetchedCard = await getApplicationDataById<CardData[]>(userData.dbId, "cards");
+    
+    if (fetchedCard.success && fetchedCard.data && Array.isArray(fetchedCard.data)) {
+      displayCards = fetchedCard.data;
+    }
   }
 
   return (
-    <Message 
+    <Message
       age={age}
       cards={displayCards}
     />

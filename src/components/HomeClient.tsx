@@ -5,99 +5,7 @@ import { saveBirthdayData, CardData } from '@/lib/cloudburstApi';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const stockImages = [
-  'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop'
-];
-
-const defaultCards: CardData[] = [
-  {
-    id: 'default-1',
-    theme: 'gradient',
-    font: 'font-sans',
-    message: '🎉 Wishing you a day filled with love, laughter, and all the happiness in the world. Another year around the sun means more adventures to embark on and dreams to chase. May your special day be just the beginning of a year full of wonderful surprises and beautiful moments. 🎂🎈',
-    imageUrl: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?q=80&w=2070&auto=format&fit=crop',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'default-2',
-    theme: 'sunset',
-    font: 'font-serif',
-    message: '🌟 Happy birthday! May this year bring you endless joy, amazing surprises, and all the success you deserve. Take this day to celebrate the incredible person you are and all the accomplishments you\'ve achieved. Here\'s to creating new memories and making every moment count! 🎁🎉',
-    imageUrl: 'https://images.unsplash.com/photo-1583875762487-5f8f7c718d14?q=80&w=1887&auto=format&fit=crop',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'default-3',
-    theme: 'ocean',
-    font: 'font-sans',
-    message: '🎂 Another year older, another reason to celebrate! As you blow out the candles, remember how far you\'ve come and the incredible journey that lies ahead. Your presence brightens every room, and on this special day, I hope you\'re surrounded by laughter, love, and the warmth of cherished friends and family. 🥳🎈',
-    imageUrl: 'https://images.unsplash.com/photo-1578922794704-7bdd46f70ce0?q=80&w=1887&auto=format&fit=crop',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'default-4',
-    theme: 'forest',
-    font: 'font-sans',
-    message: '🎉 On your special day, I hope you\'re surrounded by people who make you feel cherished and loved. Birthdays are for reflecting on the beautiful moments of the past year and eagerly anticipating what the new one will bring. Here\'s to you, to your kindness, your strength, and the wonderful light you bring into the lives of those around you. Happy birthday! 🎂🎁',
-    imageUrl: 'https://images.unsplash.com/photo-1562804698-732e972e46e4?q=80&w=1887&auto=format&fit=crop',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'default-5',
-    theme: 'romantic',
-    font: 'font-serif',
-    message: '🎈 Sending you warm birthday wishes and a big hug on your special day. May it be as sweet as you are! Your heart is as beautiful as your smile, and today, I hope you take time to celebrate all the love and happiness you\'ve shared with others. Here\'s to more laughter, more joy, and more unforgettable moments ahead. 🎉🥳',
-    imageUrl: 'https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?q=80&w=1926&auto=format&fit=crop',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'default-6',
-    theme: 'golden',
-    font: 'font-sans',
-    message: '🌟 Happy birthday! May this year be the best one yet, filled with exciting adventures and wonderful moments. Today is all about celebrating you, your incredible spirit, and the bright future that awaits. Here\'s to making memories that last a lifetime and cherishing every single moment along the way. 🎂🎁',
-    imageUrl: 'https://plus.unsplash.com/premium_photo-1663837827359-ab1ade604318?q=80&w=2070&auto=format&fit=crop',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'default-7',
-    theme: 'gradient',
-    font: 'font-serif',
-    message: '🥂 Cheers to you on your birthday! May your day be as bright and beautiful as you are. You deserve all the happiness in the world, and I hope today brings you just that. Here\'s to laughter that fills the air, to love that warms the heart, and to a year ahead that\'s even more amazing than the last. Happy birthday! 🎉🎈',
-    imageUrl: 'https://images.unsplash.com/photo-1464349153735-7db50ed83c84?q=80&w=1928&auto=format&fit=crop',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'default-8',
-    theme: 'sunset',
-    font: 'font-sans',
-    message: '🎉 Wishing you a day filled with laughter, love, and all the happiness your heart can hold. Birthdays are a time to celebrate life, and yours is a life worth celebrating in every way. May this year be filled with dreams fulfilled, goals achieved, and moments that take your breath away. Happy birthday! 🎂🎁',
-    imageUrl: 'https://plus.unsplash.com/premium_photo-1675948934492-443d1076c984?q=80&w=1932&auto=format&fit=crop',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'default-9',
-    theme: 'ocean',
-    font: 'font-mono',
-    message: '🌟 Here\'s to another year of amazing opportunities, beautiful moments, and cherished memories. Birthdays mark the passage of time, but they also remind us of the incredible experiences that shape our lives. Today, I celebrate you and all the joy you bring into the world. May your day be as special as you are. Happy birthday! 🥳🎈',
-    imageUrl: 'https://images.unsplash.com/photo-1627247359162-4645d9f8543b?q=80&w=1887&auto=format&fit=crop',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'default-10',
-    theme: 'forest',
-    font: 'font-serif',
-    message: '🎂 Happy birthday! May this day bring you everything you\'ve been wishing for and more. You deserve the world! As you blow out the candles, know that you are surrounded by love and well wishes from all who cherish you. Here\'s to a year ahead filled with love, laughter, and all the blessings your heart can hold. 🎉🎁',
-    imageUrl: 'https://images.unsplash.com/photo-1517273666229-35e76c06b18d?q=80&w=1887&auto=format&fit=crop',
-    createdAt: new Date().toISOString()
-  }
-];
-
-export default function HomeClient() {
+export default function HomeClient(props: { defaultCards: CardData[], stockImages: string[] }) {
   const [formData, setFormData] = useState({
     name: '',
     dob: (() => {
@@ -107,28 +15,17 @@ export default function HomeClient() {
     })(),
     senderName: ''
   });
-  const [cards, setCards] = useState<CardData[]>(defaultCards);
+  const [cards, setCards] = useState<CardData[]>(props.defaultCards);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [shareLink, setShareLink] = useState<string | null>(null);
   const [showCardForm, setShowCardForm] = useState(false);
-  
-  // Card form state
-  const [cardTheme, setCardTheme] = useState('gradient');
+
   const [cardFont, setCardFont] = useState('font-sans');
   const [cardMessage, setCardMessage] = useState('');
   const [imageType, setImageType] = useState<'stock' | 'url'>('stock');
-  const [stockImage, setStockImage] = useState(stockImages[0]);
+  const [stockImage, setStockImage] = useState(props.stockImages[0]);
   const [customImageUrl, setCustomImageUrl] = useState('');
-
-  const themes = {
-    gradient: { bg: 'from-pink-400 via-purple-400 to-indigo-500', name: 'Gradient' },
-    sunset: { bg: 'from-orange-400 via-pink-500 to-purple-600', name: 'Sunset' },
-    ocean: { bg: 'from-blue-400 via-cyan-400 to-teal-500', name: 'Ocean' },
-    forest: { bg: 'from-green-400 via-emerald-500 to-teal-600', name: 'Forest' },
-    romantic: { bg: 'from-rose-400 via-pink-500 to-red-500', name: 'Romantic' },
-    golden: { bg: 'from-yellow-400 via-orange-400 to-amber-500', name: 'Golden' }
-  };
 
   const fonts = {
     'font-sans': 'Sans Serif',
@@ -140,29 +37,18 @@ export default function HomeClient() {
     e.preventDefault();
     setIsLoading(true);
     setError('');
-    
-    if (formData.name && formData.dob && formData.senderName) {
-      // Fetch IP and location
-      let ip = '';
-      let location = '';
-      try {
-        const ipRes = await fetch('https://api.ipify.org?format=json');
-        const ipData = await ipRes.json();
-        ip = ipData.ip;
-        const locRes = await fetch(`https://ipapi.co/${ip}/json/`);
-        const locData = await locRes.json();
-        location = locData.city ? `${locData.city}, ${locData.country_name}` : locData.country_name || '';
-      } catch (err) {
-        // Ignore errors, fallback to empty
-      }
 
+    if (formData.name && formData.dob && formData.senderName) {
       const birthdayData = {
         personName: formData.name,
         dateOfBirth: formData.dob,
         senderName: formData.senderName,
-        ip,
-        location,
-        cards: cards
+        collection: [
+          {
+            name: "cards",
+            data: cards
+          }
+        ]
       };
 
       const result = await saveBirthdayData(birthdayData);
@@ -175,7 +61,7 @@ export default function HomeClient() {
     } else {
       setError('Please fill in all required fields.');
     }
-    
+
     setIsLoading(false);
   };
 
@@ -190,21 +76,21 @@ export default function HomeClient() {
 
   const addCard = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (cards.length >= MAX_CARDS) {
       alert(`Maximum card limit reached! You can add up to ${MAX_CARDS} cards.`);
       return;
     }
-    
+
     if (cardMessage.trim()) {
       let imageUrl: string | undefined;
-      
+
       if (imageType === 'stock') {
         imageUrl = stockImage;
       } else if (imageType === 'url' && customImageUrl) {
         imageUrl = customImageUrl;
       }
-      
+
       if (!imageUrl) {
         alert('Please select or provide a card image.');
         return;
@@ -212,20 +98,17 @@ export default function HomeClient() {
 
       const newCard: CardData = {
         id: `card-${Date.now()}`,
-        theme: cardTheme,
         font: cardFont,
         message: cardMessage,
         imageUrl,
-        createdAt: new Date().toISOString()
+        createdAt: new Date()
       };
-      
+
       setCards([...cards, newCard]);
-      // Reset card form
       setCardMessage('');
-      setCardTheme('gradient');
       setCardFont('font-sans');
       setImageType('stock');
-      setStockImage(stockImages[0]);
+      setStockImage(props.stockImages[0]);
       setCustomImageUrl('');
       setShowCardForm(false);
     }
@@ -242,7 +125,6 @@ export default function HomeClient() {
     }
   };
 
-  // If share link exists, show success page
   if (shareLink) {
     return (
       <div className="min-h-screen bg-linear-to-br from-pink-500 via-purple-500 to-indigo-600 dark:from-pink-900 dark:via-purple-900 dark:to-indigo-950 flex items-center justify-center p-4">
@@ -346,23 +228,22 @@ export default function HomeClient() {
             <motion.button
               type="button"
               onClick={() => {
-                // Set default preview data
                 const previewName = "Your Friend";
                 const today = new Date();
                 const tenYearsAgo = new Date(today.getFullYear() - 10, today.getMonth(), today.getDate());
                 const previewDob = tenYearsAgo.toISOString().split('T')[0];
-                
+
                 localStorage.setItem('NEXT_PUBLIC_PERSON_NAME', previewName);
                 localStorage.setItem('NEXT_PUBLIC_DATE_OF_BIRTH', previewDob);
-                localStorage.setItem('BIRTHDAY_CARDS', JSON.stringify([])); // Empty for preview - Message component will show defaults
+                localStorage.setItem('BIRTHDAY_CARDS', JSON.stringify([]));
                 localStorage.setItem('IS_PREVIEW', 'true');
-                
+
                 const expiryDate = new Date();
                 expiryDate.setDate(expiryDate.getDate() + 1);
                 document.cookie = `is_preview=true; expires=${expiryDate.toUTCString()}; path=/`;
                 document.cookie = `preview_name=${previewName}; expires=${expiryDate.toUTCString()}; path=/`;
                 document.cookie = `preview_dob=${previewDob}; expires=${expiryDate.toUTCString()}; path=/`;
-                
+
                 window.location.href = '/timer';
               }}
               whileHover={{ scale: 1.05 }}
@@ -526,7 +407,7 @@ export default function HomeClient() {
               </div>
 
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
-                {cards.length >= MAX_CARDS 
+                {cards.length >= MAX_CARDS
                   ? `Maximum limit reached. You have ${cards.length} cards.`
                   : `10 default cards included. You can add up to ${MAX_CARDS - cards.length} more cards.`
                 }
@@ -552,11 +433,10 @@ export default function HomeClient() {
                             key={key}
                             type="button"
                             onClick={() => setCardFont(key)}
-                            className={`px-4 py-2 rounded-lg ${key} ${
-                              cardFont === key
+                            className={`px-4 py-2 rounded-lg ${key} ${cardFont === key
                                 ? 'bg-purple-500 text-white'
                                 : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                            } transition-all hover:scale-105`}
+                              } transition-all hover:scale-105`}
                           >
                             {value}
                           </button>
@@ -573,22 +453,20 @@ export default function HomeClient() {
                         <button
                           type="button"
                           onClick={() => setImageType('stock')}
-                          className={`px-4 py-2 rounded-lg text-sm ${
-                            imageType === 'stock'
+                          className={`px-4 py-2 rounded-lg text-sm ${imageType === 'stock'
                               ? 'bg-purple-500 text-white'
                               : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                          }`}
+                            }`}
                         >
                           Stock Images
                         </button>
                         <button
                           type="button"
                           onClick={() => setImageType('url')}
-                          className={`px-4 py-2 rounded-lg text-sm ${
-                            imageType === 'url'
+                          className={`px-4 py-2 rounded-lg text-sm ${imageType === 'url'
                               ? 'bg-purple-500 text-white'
                               : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                          }`}
+                            }`}
                         >
                           Custom URL
                         </button>
@@ -596,14 +474,13 @@ export default function HomeClient() {
 
                       {imageType === 'stock' ? (
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-                          {stockImages.map((img, idx) => (
+                          {props.stockImages.map((img, idx) => (
                             <button
                               key={idx}
                               type="button"
                               onClick={() => setStockImage(img)}
-                              className={`aspect-4/3 rounded-lg overflow-hidden ${
-                                stockImage === img ? 'ring-4 ring-purple-500' : ''
-                              }`}
+                              className={`aspect-4/3 rounded-lg overflow-hidden ${stockImage === img ? 'ring-4 ring-purple-500' : ''
+                                }`}
                             >
                               <img src={img} alt={`Stock ${idx + 1}`} className="w-full h-full object-cover" />
                             </button>
@@ -655,9 +532,9 @@ export default function HomeClient() {
                       <div className="flex flex-col">
                         <div className="shrink-0">
                           <div className="h-32 w-full relative">
-                            <img 
-                              src={card.imageUrl} 
-                              alt="Card image" 
+                            <img
+                              src={card.imageUrl}
+                              alt="Card image"
                               className="w-full h-full object-cover"
                             />
                           </div>
@@ -701,24 +578,24 @@ export default function HomeClient() {
         <div className="max-w-4xl mx-auto text-center space-y-3">
           <p className="text-sm">
             This app is developed by{' '}
-            <Link 
-              href="https://shawkath646.pro" 
-              target="_blank" 
+            <Link
+              href="https://shawkath646.pro"
+              target="_blank"
               rel="noopener noreferrer"
               className="text-blue-400 hover:text-blue-300 font-semibold transition-colors"
             >
               Shawkat Hossain Maruf
             </Link>
             {' '}on behalf of{' '}
-            <Link 
-              href="https://cloudburstlab.vercel.app" 
-              target="_blank" 
+            <Link
+              href="https://cloudburstlab.vercel.app"
+              target="_blank"
               rel="noopener noreferrer"
               className="inline-block align-text-bottom hover:opacity-80 transition-opacity"
             >
-              <Image 
-                src="https://cloudburstlab.vercel.app/api/branding/logo?variant=transparent" 
-                alt="CloudBurst Lab" 
+              <Image
+                src="https://cloudburstlab.vercel.app/api/branding/logo?variant=transparent"
+                alt="CloudBurst Lab"
                 width={160}
                 height={28}
                 className="inline-block h-7 w-auto"

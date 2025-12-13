@@ -3,9 +3,9 @@ import { cookies } from 'next/headers';
 import { fetchBirthdayData } from '@/lib/cloudburstApi';
 
 export interface UserData {
+    dbId: string;
     personName: string;
     dateOfBirth: string;
-    cards: any[];
     isPreview?: boolean;
 }
 
@@ -20,14 +20,13 @@ export async function getUserData(): Promise<UserData | null> {
             const previewDob = cookieStore.get('preview_dob')?.value || new Date(new Date().setFullYear(new Date().getFullYear() - 10)).toISOString().split('T')[0];
 
             return {
+                dbId: "preview",
                 personName: previewName,
                 dateOfBirth: previewDob,
-                cards: [],
                 isPreview: true,
             };
         }
 
-        // Normal mode - fetch from database
         const dbId = cookieStore.get('birthday_db_id')?.value;
 
         if (!dbId) {
@@ -41,9 +40,9 @@ export async function getUserData(): Promise<UserData | null> {
         }
 
         return {
+            dbId,
             personName: result.data.personName,
             dateOfBirth: result.data.dateOfBirth,
-            cards: result.data.cards || [],
             isPreview: false,
         };
     } catch (error) {

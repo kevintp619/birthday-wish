@@ -22,7 +22,6 @@ const VirtualCake: React.FC<VirtualCakeProps> = ({ onAllCandlesBlown, age }) => 
       newCandles[index] = false;
       setCandles(newCandles);
 
-      // Check if all candles are blown
       if (newCandles.every(c => !c)) {
         setShowMessage(true);
         setTimeout(() => {
