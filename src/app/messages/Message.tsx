@@ -27,7 +27,7 @@ const Message: React.FC<MessageProps> = ({ age, cards }) => {
             <div className="container mx-auto px-3 md:px-5">
                 <div className="py-5 md:py-8 space-y-6 md:space-y-8 pt-12 md:pt-20">
                     <h1 className='text-center font-medium text-xl md:text-2xl lg:text-3xl text-black dark:text-white'>
-                        Congratulations! You are now {age}! <span role="img" aria-label="smirking face">🤭</span>
+                        Feliz cumpleasños numero {24}! <span role="img" aria-label="smirking face">🤭</span>
                     </h1>
 
                     <motion.div
@@ -35,7 +35,7 @@ const Message: React.FC<MessageProps> = ({ age, cards }) => {
                         animate={{ opacity: 1, y: 0 }}
                         className="bg-linear-to-b from-blue-400 via-indigo-600 to-indigo-900 dark:from-blue-600 dark:via-indigo-800 dark:to-gray-950 rounded-xl overflow-hidden shadow-xl"
                     >
-                        <VirtualCake onAllCandlesBlown={() => {}} age={age} />
+                        <VirtualCake onAllCandlesBlown={() => {}} age={24} />
                     </motion.div>
 
                     <motion.div
@@ -45,7 +45,7 @@ const Message: React.FC<MessageProps> = ({ age, cards }) => {
                         className="mb-12 md:mb-16"
                     >
                         <h2 className="text-xl md:text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-3 md:mb-4">
-                            <span role="img" aria-label="balloon">🎈</span> Pop the Balloons Game!
+                            <span role="img" aria-label="balloon">🎈</span> ¡Juego de explotar globos!
                         </h2>
                         <BalloonGame />
                     </motion.div>
@@ -58,7 +58,7 @@ const Message: React.FC<MessageProps> = ({ age, cards }) => {
                             aria-label="Personal birthday cards collection"
                         >
                             <h2 className="text-xl md:text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-4 md:mb-6">
-                                <span role="img" aria-label="gift with heart">💝</span> Personal Birthday Cards
+                                <span role="img" aria-label="gift with heart">💝</span> Tarjetas de cumpleaños personales
                             </h2>
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 max-w-6xl mx-auto" role="list">
                                 {cards.map((card, index) => (
