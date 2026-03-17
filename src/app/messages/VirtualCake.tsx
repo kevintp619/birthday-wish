@@ -119,7 +119,7 @@ const VirtualCake: React.FC<VirtualCakeProps> = ({ onAllCandlesBlown, age }) => 
         className="relative w-full max-w-2xl z-10"
       >
         <h3 className="text-lg md:text-2xl font-bold text-center mb-6 md:mb-8 text-white drop-shadow-lg">
-          Make a wish and blow the candles! 🎂
+          Pide un deseo y sopla las velas! 🎂
         </h3>
         
         {/* Candles */}
@@ -215,7 +215,7 @@ const VirtualCake: React.FC<VirtualCakeProps> = ({ onAllCandlesBlown, age }) => 
             whileTap={{ scale: 0.95 }}
             animate={isBlowing ? { scale: [1, 0.9, 1] } : {}}
           >
-            💨 Blow Candles
+            💨 Sopla las velas
           </motion.button>
         </div>
         
@@ -229,7 +229,7 @@ const VirtualCake: React.FC<VirtualCakeProps> = ({ onAllCandlesBlown, age }) => 
                 exit={{ opacity: 0 }}
                 className="text-xs md:text-sm text-white drop-shadow-lg text-center font-semibold"
               >
-                💡 Keep pressing the button to blow more candles!
+                💡 Sigue pulsando el botón para soplar más velas!
               </motion.p>
             )}
             {showHint && (
@@ -239,7 +239,7 @@ const VirtualCake: React.FC<VirtualCakeProps> = ({ onAllCandlesBlown, age }) => 
                 exit={{ opacity: 0 }}
                 className="text-xs md:text-sm text-white/90 text-center drop-shadow-md"
               >
-                💡 Tip: Click candles individually or use the button above!
+                💡 Consejo: Haga clic en las velas individualmente o utiliza el botón de arriba!
               </motion.p>
             )}
           </AnimatePresence>
@@ -260,7 +260,7 @@ const VirtualCake: React.FC<VirtualCakeProps> = ({ onAllCandlesBlown, age }) => 
               animate={{ scale: 1 }}
               className="text-2xl md:text-4xl lg:text-6xl font-bold text-white text-center px-4"
             >
-              🎉 Your wish came true! 🎉
+              🎉 Tu deseo fue cumplido! 🎉
             </motion.h2>
           </motion.div>
         )}
